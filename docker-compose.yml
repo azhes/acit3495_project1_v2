@@ -1,0 +1,28 @@
+version: "7"
+services:
+  db:
+    container_name: project1mysql
+    image: mysql:latest
+    volumes:
+      - pathsdb:/var/lib/mysql
+    networks:
+      - project1
+    environment:
+      MYSQL_ROOT_PASSWORD: Password
+      MYSQL_DATABASE: project1
+      MYSQL_USER: videouser
+      MYSQL_PASSWORD: Password
+  app:
+    container_name: videoapp
+    networks:
+      - project1
+    links:
+      - "db"
+    image: videostreaming
+    ports:
+      - "5001:5000"
+volumes:
+  pathsdb:
+networks:
+  project1:
+    external: true

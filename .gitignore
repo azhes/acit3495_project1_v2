@@ -1,0 +1,4 @@
+venv/
+db_config.yaml
+new_user_credentials.csv
+upload_config.yaml
