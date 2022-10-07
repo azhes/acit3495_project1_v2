@@ -21,6 +21,8 @@ services:
     image: videostreaming
     ports:
       - "5001:5000"
+    depends_on:
+      - db
 volumes:
   pathsdb:
 networks:
