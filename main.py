@@ -6,12 +6,14 @@ from werkzeug.utils import secure_filename
 from upload import upload_video_file
 from write_to_mysql import write_to_mysql
 from create_tables import create_table
+from get_videos import get_videos
 
-create_table()
+# create_table()
 
 @app.route('/')
 def upload_form():
-    return render_template('upload.html')
+    videos_list = get_videos()
+    return render_template('upload.html', videos_list=videos_list)
 
 @app.route('/', methods=['POST'])
 def upload_video():
@@ -25,15 +27,26 @@ def upload_video():
     else:
         filename = secure_filename(file.filename)
         file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-        print(f'Filename: {filename}')
+        # print(f'Filename: {filename}')
         flash('Video successfully uploaded and displayed below')
-        write_to_mysql(filename)
+        # write_to_mysql(filename)
         upload_video_file(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-        return render_template('upload.html', filename=filename)
+        videos_list = get_videos()
+        return render_template('upload.html', filename=filename, videos_list=videos_list)
+
+@app.route("/", methods=['GET', 'POST'])
+def buttons():
+    videos_list = get_videos()
+    if request.method == 'POST':
+        print(request.form['video'])
+        return
+    
+    return render_template('upload.html', filename=request.form['video'], videos_list=videos_list)
+            
 
 @app.route('/display/<filename>')
 def display_video(filename):
-    print(f'Filename: {filename}')
+    # print(f'Filename: {filename}')
     return redirect(url_for('static', filename='uploads/' + filename), code=301)
 
 if __name__ == '__main__':

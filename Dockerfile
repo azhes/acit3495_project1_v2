@@ -15,6 +15,7 @@ COPY --chown=myuser:myuser templates templates
 COPY --chown=myuser:myuser db_config.yaml db_config.yaml
 COPY --chown=myuser:myuser create_tables.py create_tables.py
 COPY --chown=myuser:myuser upload_config.yaml upload_config.yaml
+COPY --chown=myuser:myuser get_videos.py get_videos.py
 RUN pip install --user -r requirements.txt
 
 ENV PATH="/home/myuser/.local/bin:${PATH}"

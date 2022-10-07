@@ -23,5 +23,4 @@ def get_videos():
         video_name = file.key[15:]
         videos_list.append(video_name)
 
-    return videos_list
-    
+    return videos_list    

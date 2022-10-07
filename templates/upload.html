@@ -30,3 +30,11 @@
 		<input type="submit" value="Upload">
 	</p>
 </form>
+<h1>Or choose a video to watch!</h1>
+<form method="post" action="/">
+	<ul>
+		{% for video in videos_list %}
+			<input type="submit" value={{ video }} name= {{ videos_list.index(video) }}>
+		{% endfor %}
+	</ul>
+</form>
