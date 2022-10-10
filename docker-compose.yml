@@ -23,6 +23,18 @@ services:
       - "5001:5000"
     depends_on:
       - db
+  auth:
+    container_name: authentication
+    networks:
+      - project1
+    links:
+      - "db"
+    image: authentication
+    ports:
+      - "5002:5002"
+    depends_on:
+      - db
+      - app
 volumes:
   pathsdb:
 networks:

@@ -31,10 +31,10 @@
 	</p>
 </form>
 <h1>Or choose a video to watch!</h1>
-<form method="post" action="/">
+<form method="post" action="/" enctype="multipart/form-data">
 	<ul>
 		{% for video in videos_list %}
-			<input type="submit" value={{ video }} name= {{ videos_list.index(video) }}>
+			<input type="submit" value={{ video }} name= {{ videos_list.index(video) }} enctype="multipart/form-data">
 		{% endfor %}
 	</ul>
 </form>

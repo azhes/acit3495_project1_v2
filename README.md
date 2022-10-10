@@ -2,6 +2,8 @@
 
 run the following docker commands:
 
-docker build -t videostreaming .
+docker build -f Dockerfile.web -t videostreaming .
+
+docker build -f Dockerfile.auth -t authentication .
 
 docker-compose -f docker-compose.yml up
