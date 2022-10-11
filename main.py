@@ -10,13 +10,13 @@ from get_videos import get_videos
 
 
 
-@app.route('/', methods=['GET', 'POST'])
+@app.route('/')
 def upload_form():
-    if request.method == "POST":
-        videos_list = get_videos()
-        return render_template('upload.html', videos_list=videos_list)
-    elif request.method == "GET":
-        return redirect('http://localhost:5002/authenticate', 301)
+    # if request.method == "POST":
+    videos_list = get_videos()
+    return render_template('upload.html', videos_list=videos_list)
+    # elif request.method == "GET":
+        # return redirect('http://localhost:5002/authenticate', 301)
 
 
 @app.route('/', methods=['POST'])
@@ -36,15 +36,15 @@ def upload_video():
         write_to_mysql(filename)
         upload_video_file(os.path.join(app.config['UPLOAD_FOLDER'], filename))
         videos_list = get_videos()
-        return render_template('upload.html', filename=filename)
+        return render_template('upload.html', filename=filename, videos_list=videos_list)
 
 @app.route("/", methods=['POST'])
 def buttons():
-    # videos_list = get_videos()
+    videos_list = get_videos()
     if request.method == 'POST':
         print(request.form['video'])
     
-    return render_template('upload.html', filename=request.form['video'])
+    return render_template('upload.html', filename=request.form['video'], videos_list=videos_list)
             
 
 @app.route('/display/<filename>')
