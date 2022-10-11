@@ -11,6 +11,8 @@ COPY --chown=myuser:myuser templates templates
 COPY --chown=myuser:myuser static static
 COPY --chown=myuser:myuser authenticate.py authenticate.py
 COPY --chown=myuser:myuser users.json users.json
+COPY --chown=myuser:myuser create_tables.py create_tables.py
+COPY --chown=myuser:myuser db_config.yaml db_config.yaml
 RUN pip install --user -r requirements.txt
 
 ENV PATH="/home/myuser/.local/bin:${PATH}"

@@ -8,9 +8,9 @@ from write_to_mysql import write_to_mysql
 from create_tables import create_table
 from get_videos import get_videos
 
-create_table()
 
-@app.route('/', methods=["GET", "POST"])
+
+@app.route('/', methods=['GET', 'POST'])
 def upload_form():
     if request.method == "POST":
         videos_list = get_videos()
@@ -36,15 +36,15 @@ def upload_video():
         write_to_mysql(filename)
         upload_video_file(os.path.join(app.config['UPLOAD_FOLDER'], filename))
         videos_list = get_videos()
-        return render_template('upload.html', filename=filename, videos_list=videos_list)
+        return render_template('upload.html', filename=filename)
 
 @app.route("/", methods=['POST'])
 def buttons():
-    videos_list = get_videos()
+    # videos_list = get_videos()
     if request.method == 'POST':
         print(request.form['video'])
     
-    return render_template('upload.html', filename=request.form['video'], videos_list=videos_list)
+    return render_template('upload.html', filename=request.form['video'])
             
 
 @app.route('/display/<filename>')

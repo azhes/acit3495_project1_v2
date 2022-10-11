@@ -33,7 +33,6 @@ services:
     ports:
       - "5002:5002"
     depends_on:
-      - db
       - app
 volumes:
   pathsdb:

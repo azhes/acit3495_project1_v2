@@ -19,19 +19,15 @@
           {% endif %}
         {% endwith %}
     </p>
-    <h1>Please enter your username and password!</h1>
-    <form method="post", action="/authenticate">
+    <h1>Register a new account!</h1>
+    <form method="post", action="/register">
     <div class="container">
         <label for="uname"><b>Username</b></label>
         <input type="text" placeholder="Enter Username" name="uname" required value="{{ request.form['uname'] }}">
     
         <label for="psw"><b>Password</b></label>
         <input type="password" placeholder="Enter Password" name="psw" required value="{{ request.form['password'] }}">
-        <input type="submit" value="Login">
+        <input type="submit" value="Register">
     </div>
-    </form>
-    <form method="", action="/register">
-        <input type="submit" value="Register new user">
-    </form>
 </body>
 </html>
