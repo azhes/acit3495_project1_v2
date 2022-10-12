@@ -29,11 +29,22 @@ services:
       - project1
     links:
       - "db"
-    image: authentication
+    image: agraystone/authentication
     ports:
       - "5002:5002"
     depends_on:
       - app
+  play:
+    container_name: videoplayer
+    networks:
+      - project1
+    links:
+      - "db"
+    image: videoplayer
+    ports:
+      - "5003:5003"
+    depends_on:
+      - auth
 volumes:
   pathsdb:
 networks:

@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+<title>Python Flask - Video Upload and Play</title>
+<img src="static\noobtube.png" alt="noobtube logo">
+<h1>Watch your video!</h1>
+{% if filename %}
+	<div style="margin: 10px auto;">
+		<video autoplay="autoplay" controls="controls" preload="preload">
+			<source src="{{ filename }}" type="video/mp4"></source>
+		</video>
+	</div>
+{% endif %}

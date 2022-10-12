@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 <title>Python Flask - Video Upload and Play</title>
+<img src="static\noobtube.png" alt="noobtube logo">
 <h1>Select a video to upload & play!</h1>
 <p>
 	{% with messages = get_flashed_messages() %}
@@ -23,18 +24,24 @@
 <form method="post" action="/" enctype="multipart/form-data">
     <dl>
 		<p>
-			<input type="file" name="file" autocomplete="off" required>
+			<input type="file" name="file" autocomplete="off">
 		</p>
     </dl>
     <p>
 		<input type="submit" value="Upload">
 	</p>
-</form>
-<h1>Or choose a video to watch!</h1>
-<form method="post" action="/" enctype="multipart/form-data">
+	<h1>Or choose a video to watch!</h1>
 	<ul>
 		{% for video in videos_list %}
-			<input type="submit" value={{ video }} name= {{ videos_list.index(video) }} enctype="multipart/form-data">
+			<input type="submit" value={{ video }} name="play_video" enctype="multipart/form-data">
 		{% endfor %}
 	</ul>
 </form>
+<!-- <h1>Or choose a video to watch!</h1>
+<form method="post" action="/" enctype="multipart/form-data">
+	<ul>
+		{% for video in videos_list %}
+			<input type="submit" value={{ video }} name="play_video" enctype="multipart/form-data">
+		{% endfor %}
+	</ul>
+</form> -->
