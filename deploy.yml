@@ -1,0 +1,139 @@
+# Noobtube Main Services: Videostreaming, Authentication, Videoplayer
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: noobtube
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: noobtube
+  template:
+    metadata:
+      labels:
+        app: noobtube
+    spec:
+      containers:
+      - name: streaming
+        image: agraystone/videostreaming
+        imagePullPolicy: IfNotPresent
+        ports:
+          - containerPort: 5001
+        resources:
+          limits:
+            memory: 200Mi
+            cpu: 1
+      - name: auth
+        image: agraystone/authentication
+        imagePullPolicy: IfNotPresent
+        ports:
+          - containerPort: 5002
+        resources:
+          limits:
+            memory: 200Mi
+            cpu: 1
+      - name: player
+        image: agraystone/videoplayer
+        imagePullPolicy: IfNotPresent
+        ports:
+          - containerPort: 5003
+        resources:
+          limits:
+            memory: 200Mi
+            cpu: 1
+
+---
+# Noobtube Expose Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: noobtube-lb
+spec:
+  selector:
+    app: noobtube
+  ports:
+    - name: streaming
+      port: 5001
+      targetPort: 5001
+    - name: auth
+      port: 5002
+      targetPort: 5002
+    - name: player
+      port: 5003
+      targetPort: 5003
+  type: LoadBalancer
+---
+# Noobtube Horizontal Scaling
+apiVersion: autoscaling/v1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: noobtube-hpa
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: noobtube
+  minReplicas: 1
+  maxReplicas: 10
+  targetCPUUtilizationPercentage: 50
+
+---
+# MySQL Database Persistent Volume Claim (Dynamic Provisioning)
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: mysql-pvc
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 4Gi
+
+---
+# MySQL Deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mysql
+  labels:
+    app: mysql
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mysql
+  template:
+    metadata:
+      labels:
+        app: mysql
+    spec:
+      volumes:
+        - name: mysql-storage
+          persistentVolumeClaim:
+            claimName: mysql-pvc
+      containers:
+        - name: mysql
+          image: mysql:latest
+          ports:
+            - containerPort: 3306
+          envFrom:
+            - configMapRef:
+                name: mysql-config
+          volumeMounts:
+            - name: mysql-storage
+              mountPath: "/var/lib/mysql"
+
+---
+# MySQL Expose Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: mysql
+spec:
+  type: ClusterIP
+  selector:             
+    app: mysql
+  ports:
+    - port: 3306  
+      targetPort: 3306

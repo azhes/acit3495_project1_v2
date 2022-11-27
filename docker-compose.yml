@@ -18,7 +18,7 @@ services:
       - project1
     links:
       - "db"
-    image: videostreaming
+    image: agraystone/videostreaming
     ports:
       - "5001:5000"
     depends_on:
@@ -40,7 +40,7 @@ services:
       - project1
     links:
       - "db"
-    image: videoplayer
+    image: agraystone/videoplayer
     ports:
       - "5003:5003"
     depends_on:
@@ -49,4 +49,3 @@ volumes:
   pathsdb:
 networks:
   project1:
-    external: true
